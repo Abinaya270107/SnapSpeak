@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.bak
+.pytest_cache/
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Models and generated audio
+models/
+data/*.wav
+uploads/
+temp/
+tmp/
+
+# Personal uploaded presentation
+data/uploaded_presentation.pdf
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Audio recordings and model weights
+*.wav
+*.pt
+*.onnx
