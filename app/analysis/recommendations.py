@@ -1,3 +1,4 @@
+
 class RecommendationEngine:
 
     def generate(
@@ -13,8 +14,8 @@ class RecommendationEngine:
         # --------------------------------------------------
 
         wpm = speech_metrics.get(
-            "words_per_minute",
-            0
+            "speech_only_words_per_minute",
+            speech_metrics.get("words_per_minute", 0)
         )
 
         word_count = speech_metrics.get(
@@ -24,27 +25,36 @@ class RecommendationEngine:
 
         if word_count == 0 or wpm == 0:
             recommendations.append(
-                "No speech was detected. Check the microphone input and try the presentation again."
+                "No speech was detected. Check the microphone input "
+                "and try the presentation again."
             )
 
         elif wpm > 160:
             recommendations.append(
-                "Your speaking pace was quite fast. Slow down slightly and add short pauses between important points."
+                "Your speaking pace was very fast. Slow down, "
+                "articulate each word clearly, and add short pauses "
+                "between important points."
             )
 
-        elif wpm < 80:
+        elif wpm > 130:
             recommendations.append(
-                "Your speaking pace was quite slow. Try speaking slightly faster while keeping your words clear."
+                "Your speaking pace was on the faster side. Try "
+                "slowing down slightly, especially when explaining "
+                "important ideas, so your audience can follow easily."
             )
 
-        elif wpm < 100:
+        elif wpm < 90:
             recommendations.append(
-                "Your speaking pace was slightly slow. A little more pace could make the presentation feel more engaging."
+                "Your speaking pace was on the slower side. If your "
+                "delivery felt too slow, try increasing your pace "
+                "slightly while keeping your words clear and natural."
             )
 
         else:
             recommendations.append(
-                "Your speaking pace was within a comfortable range for a presentation."
+                "Your speaking pace was within a comfortable range. "
+                "Keep a natural rhythm and use pauses to emphasize "
+                "important points."
             )
 
         # --------------------------------------------------
@@ -61,12 +71,15 @@ class RecommendationEngine:
 
         elif filler_count > 5:
             recommendations.append(
-                "You used several filler words. Replace them with short intentional pauses to make your delivery more confident."
+                "You used several filler words. Replace them with "
+                "short intentional pauses to make your delivery "
+                "more confident."
             )
 
         elif filler_count > 0:
             recommendations.append(
-                "A few filler words were detected. Try replacing them with short pauses when organizing your thoughts."
+                "A few filler words were detected. Try replacing "
+                "them with short pauses when organizing your thoughts."
             )
 
         else:
@@ -92,12 +105,16 @@ class RecommendationEngine:
 
             if longest_pause >= 5:
                 recommendations.append(
-                    "You had a few long pauses. Try maintaining a smoother flow or prepare transitions between major points."
+                    "You had a few long pauses. Try maintaining a "
+                    "smoother flow or prepare transitions between "
+                    "major points."
                 )
 
             elif pause_count >= 3:
                 recommendations.append(
-                    "You used several pauses. Keep them intentional so they emphasize important points rather than interrupting your flow."
+                    "You used several pauses. Keep them intentional "
+                    "so they emphasize important points rather than "
+                    "interrupting your flow."
                 )
 
         # --------------------------------------------------
@@ -124,25 +141,33 @@ class RecommendationEngine:
             if needs_adjustment_percentage >= 20:
 
                 recommendations.append(
-                    "Your posture needed adjustment during a significant part of the session. Try keeping your shoulders level and your body more upright."
+                    "Your posture needed adjustment during a "
+                    "significant part of the session. Try keeping "
+                    "your shoulders level and your body more upright."
                 )
 
             elif good_percentage < 50:
 
                 recommendations.append(
-                    "Your posture was stable for less than half of the session. Try maintaining a more upright and balanced stance."
+                    "Your posture was stable for less than half "
+                    "of the session. Try maintaining a more upright "
+                    "and balanced stance."
                 )
 
             elif slightly_percentage > 40:
 
                 recommendations.append(
-                    "Your posture was generally acceptable, but it was slightly misaligned for a noticeable part of the session. Try to maintain a more consistent stance."
+                    "Your posture was generally acceptable, but "
+                    "it was slightly misaligned for a noticeable "
+                    "part of the session. Try to maintain a more "
+                    "consistent stance."
                 )
 
             else:
 
                 recommendations.append(
-                    "Your posture was stable for most of the presentation."
+                    "Your posture was stable for most of the "
+                    "presentation."
                 )
 
         # --------------------------------------------------
@@ -152,11 +177,6 @@ class RecommendationEngine:
         coverage = content_result.get(
             "coverage_percentage",
             0
-        )
-
-        covered_topics = content_result.get(
-            "covered_topics",
-            []
         )
 
         partial_topics = content_result.get(
@@ -172,13 +192,16 @@ class RecommendationEngine:
         if coverage < 50:
 
             recommendations.append(
-                "A large portion of the presentation content was missed. Review the important topics and make sure they are addressed."
+                "A large portion of the presentation content was "
+                "missed. Review the important topics and make sure "
+                "they are addressed."
             )
 
         elif coverage < 80:
 
             recommendations.append(
-                "You covered several important topics, but some content could be explained more completely."
+                "You covered several important topics, but some "
+                "content could be explained more completely."
             )
 
         else:

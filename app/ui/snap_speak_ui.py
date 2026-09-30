@@ -195,31 +195,54 @@ st.markdown(
 
 def get_pace_status(wpm):
     """
-    Describe speaking pace based on overall WPM.
+    Classify speaking pace using the same bands as
+    RecommendationEngine.
 
-    Overall WPM includes pauses, so these labels are indicative
-    rather than a clinical or universal speaking standard.
+    Below 90 WPM: potentially slow
+    90-130 WPM: comfortable
+    Above 130-160 WPM: faster side
+    Above 160 WPM: fast
+
+    These are configurable coaching thresholds, not
+    universal standards for every speaker.
     """
-    if wpm < 100:
-        return "Slower overall pace"
-    if wpm <= 160:
+    try:
+        wpm = float(wpm)
+    except (TypeError, ValueError):
+        return "Pace unavailable"
+
+    if wpm <= 0:
+        return "No speech detected"
+
+    if wpm < 90:
+        return "Potentially slow pace"
+
+    if wpm <= 130:
         return "Comfortable overall pace"
-    return "Fast overall pace"
+
+    if wpm <= 160:
+        return "Faster than typical pace"
+
+    return "Fast pace"
 
 
 def get_filler_status(count):
     if count == 0:
         return "No fillers detected"
+
     if count <= 5:
         return "A few detected"
+
     return "Needs attention"
 
 
 def get_posture_status(percentage):
     if percentage >= 80:
         return "Excellent posture"
+
     if percentage >= 50:
         return "Mostly good"
+
     return "Needs improvement"
 
 
@@ -234,11 +257,35 @@ def get_content_status(percentage):
     """
     if percentage >= 90:
         return "Excellent coverage"
+
     if percentage >= 75:
         return "Good coverage"
+
     if percentage >= 50:
         return "Good progress"
+
     return "More topics needed"
+
+
+def get_speaking_wpm(speech_metrics):
+    """
+    Prefer speech-only WPM for the main pace result.
+    Fall back to overall WPM if speech-only WPM is unavailable.
+    """
+    wpm = speech_metrics.get(
+        "speech_only_words_per_minute"
+    )
+
+    if wpm is None:
+        wpm = speech_metrics.get(
+            "words_per_minute",
+            0,
+        )
+
+    try:
+        return float(wpm)
+    except (TypeError, ValueError):
+        return 0.0
 
 
 # --------------------------------------------------
@@ -613,7 +660,11 @@ if session_result is not None:
 
     col1, col2, col3, col4 = st.columns(4)
 
-    wpm = speech_metrics["words_per_minute"]
+    # Use speech-only WPM for both the displayed pace and
+    # the pace-status classification.
+    # This keeps the metric consistent with recommendations.
+    wpm = get_speaking_wpm(speech_metrics)
+
     filler_count = speech_metrics["filler_count"]
 
     posture_percentage = posture_metrics[
@@ -632,7 +683,7 @@ if session_result is not None:
                     Speaking Pace
                 </div>
                 <div class="metric-card-value">
-                    {wpm} WPM
+                    {wpm:.1f} WPM
                 </div>
                 <div class="metric-card-status">
                     {get_pace_status(wpm)}
@@ -707,9 +758,13 @@ if session_result is not None:
         unsafe_allow_html=True,
     )
 
-    speech_col1, speech_col2, speech_col3, speech_col4, speech_col5 = (
-        st.columns(5)
-    )
+    (
+        speech_col1,
+        speech_col2,
+        speech_col3,
+        speech_col4,
+        speech_col5,
+    ) = st.columns(5)
 
     with speech_col1:
         st.metric(
@@ -732,15 +787,15 @@ if session_result is not None:
     with speech_col4:
         st.metric(
             "Speech-Only WPM",
-            speech_metrics.get(
-                "speech_only_words_per_minute",
-                speech_metrics["words_per_minute"],
+            f'{wpm:.1f}',
+            help=(
+                "The main Speaking Pace metric uses this value "
+                "when it is available."
             ),
         )
 
-    # Updated audio display:
-    # The quality field is based on the original input RMS,
-    # so it is labelled as the raw input level instead.
+    # This quality field is based on the original input RMS.
+    # It indicates signal level, not overall audio clarity.
     with speech_col5:
         st.metric(
             "Raw Input Level",
@@ -751,6 +806,10 @@ if session_result is not None:
                 "signal level, not overall audio clarity."
             ),
         )
+
+    # --------------------------------------------------
+    # Audio level details
+    # --------------------------------------------------
 
     with st.expander("Audio Level Details"):
         st.caption(
