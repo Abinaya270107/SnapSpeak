@@ -1,0 +1,983 @@
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter marks in three subjects: ");
+        int m1 = sc.nextInt();
+        int m2 = sc.nextInt();
+        int m3 = sc.nextInt();
+
+        double avg = (m1 + m2 + m3) / 3.0;
+
+        System.out.println("Average = " + avg);
+
+        if (avg >= 90) {
+            System.out.println("Grade A");
+        } else if (avg >= 75) {
+            System.out.println("Grade B");
+        } else if (avg >= 50) {
+            System.out.println("Grade C");
+        } else {
+            System.out.println("Grade F");
+        }
+
+        sc.close();
+    }
+}
+ 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testGradeA() {
+        assertEquals("A", Main.calculateGrade(90));
+    }
+
+    @Test
+    public void testGradeB() {
+        assertEquals("B", Main.calculateGrade(80));
+    }
+
+    @Test
+    public void testGradeC() {
+        assertEquals("C", Main.calculateGrade(60));
+    }
+
+    @Test
+    public void testGradeF() {
+        assertEquals("F", Main.calculateGrade(40));
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculateBill(int units) {
+        double bill;
+
+        if (units <= 100) {
+            bill = units * 1.50;
+        } else if (units <= 200) {
+            bill = (100 * 1.50) + (units - 100) * 2.50;
+        } else {
+            bill = (100 * 1.50) + (100 * 2.50)
+                   + (units - 200) * 4.00;
+        }
+
+        return bill;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter units consumed: ");
+        int units = sc.nextInt();
+
+        double bill = calculateBill(units);
+
+        System.out.println("Electricity Bill = Rs." + bill);
+
+        sc.close();
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testFirstSlab() {
+        assertEquals(75.0, Main.calculateBill(50));
+    }
+
+    @Test
+    public void testSecondSlab() {
+        assertEquals(275.0, Main.calculateBill(150));
+    }
+
+    @Test
+    public void testThirdSlab() {
+        assertEquals(600.0, Main.calculateBill(250));
+    }
+
+    @Test
+    public void test100Units() {
+        assertEquals(150.0, Main.calculateBill(100));
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculateSI(double p, double r, double t) {
+        double si = (p * r * t) / 100;
+        return si;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Principal Amount: ");
+        double p = sc.nextDouble();
+
+        System.out.print("Enter Rate of Interest: ");
+        double r = sc.nextDouble();
+
+        System.out.print("Enter Time Period: ");
+        double t = sc.nextDouble();
+
+        double si = calculateSI(p, r, t);
+
+        System.out.println("Simple Interest = " + si);
+
+        sc.close();
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testSimpleInterest1() {
+        assertEquals(500.0, Main.calculateSI(5000, 10, 1));
+    }
+
+    @Test
+    public void testSimpleInterest2() {
+        assertEquals(1000.0, Main.calculateSI(10000, 5, 2));
+    }
+
+    @Test
+    public void testSimpleInterest3() {
+        assertEquals(1500.0, Main.calculateSI(10000, 10, 1.5));
+    }
+
+    @Test
+    public void testZeroInterest() {
+        assertEquals(0.0, Main.calculateSI(5000, 0, 2));
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculateArea(double r) {
+        double area = 3.14 * r * r;
+        return area;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter radius: ");
+        double r = sc.nextDouble();
+
+        double area = calculateArea(r);
+
+        System.out.println("Area of Circle = " + area);
+
+        sc.close();
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testArea1() {
+        assertEquals(78.5, Main.calculateArea(5), 0.01);
+    }
+
+    @Test
+    public void testArea2() {
+        assertEquals(12.56, Main.calculateArea(2), 0.01);
+    }
+
+    @Test
+    public void testArea3() {
+        assertEquals(314.0, Main.calculateArea(10), 0.01);
+    }
+
+    @Test
+    public void testZeroRadius() {
+        assertEquals(0.0, Main.calculateArea(0), 0.01);
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculate(double a, double b, char op) {
+        switch (op) {
+            case '+':
+                return a + b;
+
+            case '-':
+                return a - b;
+
+            case '*':
+                return a * b;
+
+            case '/':
+                if (b == 0) {
+                    System.out.println("Error: Division by zero");
+                    return 0;
+                }
+                return a / b;
+
+            default:
+                System.out.println("Invalid operator");
+                return 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter first number: ");
+        double a = sc.nextDouble();
+
+        System.out.print("Enter operator (+, -, *, /): ");
+        char op = sc.next().charAt(0);
+
+        System.out.print("Enter second number: ");
+        double b = sc.nextDouble();
+
+        double result = calculate(a, b, op);
+
+        if (op != '/' || b != 0) {
+            System.out.println("Result = " + result);
+        }
+
+        sc.close();
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testAddition() {
+        assertEquals(10.0, Main.calculate(5, 5, '+'), 0.01);
+    }
+
+    @Test
+    public void testSubtraction() {
+        assertEquals(5.0, Main.calculate(10, 5, '-'), 0.01);
+    }
+
+    @Test
+    public void testMultiplication() {
+        assertEquals(20.0, Main.calculate(4, 5, '*'), 0.01);
+    }
+
+    @Test
+    public void testDivision() {
+        assertEquals(5.0, Main.calculate(10, 2, '/'), 0.01);
+    }
+
+    @Test
+    public void testDivisionByZero() {
+        assertEquals(0.0, Main.calculate(10, 0, '/'), 0.01);
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static String checkResult(int marks) {
+        if (marks >= 50) {
+            return "Pass";
+        } else {
+            return "Fail";
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter student marks: ");
+        int marks = sc.nextInt();
+
+        String result = checkResult(marks);
+
+        System.out.println("Result = " + result);
+
+        sc.close();
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testPass() {
+        assertEquals("Pass", Main.checkResult(75));
+    }
+
+    @Test
+    public void testFail() {
+        assertEquals("Fail", Main.checkResult(40));
+    }
+
+    @Test
+    public void testExactly50() {
+        assertEquals("Pass", Main.checkResult(50));
+    }
+
+    @Test
+    public void testZeroMarks() {
+        assertEquals("Fail", Main.checkResult(0));
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static boolean isLeapYear(int year) {
+        if (year % 400 == 0) {
+            return true;
+        } else if (year % 100 == 0) {
+            return false;
+        } else if (year % 4 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter year: ");
+        int year = sc.nextInt();
+
+        if (isLeapYear(year)) {
+            System.out.println(year + " is a Leap Year");
+        } else {
+            System.out.println(year + " is not a Leap Year");
+        }
+
+        sc.close();
+    }
+}
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+public class MainTest {
+
+    @Test
+    public void testLeapYear() {
+        assertTrue(Main.isLeapYear(2024));
+    }
+
+    @Test
+    public void testNonLeapYear() {
+        assertFalse(Main.isLeapYear(2023));
+    }
+
+    @Test
+    public void testCenturyLeapYear() {
+        assertTrue(Main.isLeapYear(2000));
+    }
+
+    @Test
+    public void testCenturyNonLeapYear() {
+        assertFalse(Main.isLeapYear(1900));
+    }
+
+    @Test
+    public void test400Year() {
+        assertTrue(Main.isLeapYear(2400));
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculateAmount(double amount) {
+        if (amount >= 1000) {
+            amount = amount - (amount * 0.10);
+        }
+        return amount;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter purchase amount: ");
+        double amount = sc.nextDouble();
+
+        double finalAmount = calculateAmount(amount);
+
+        System.out.println("Final Purchase Amount = Rs." + finalAmount);
+
+        sc.close();
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testBelow1000() {
+        assertEquals(800.0, Main.calculateAmount(800), 0.01);
+    }
+
+    @Test
+    public void testEqualTo1000() {
+        assertEquals(900.0, Main.calculateAmount(1000), 0.01);
+    }
+
+    @Test
+    public void testAbove1000() {
+        assertEquals(1350.0, Main.calculateAmount(1500), 0.01);
+    }
+
+    @Test
+    public void testNoDiscount() {
+        assertEquals(500.0, Main.calculateAmount(500), 0.01);
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static double calculateSalary(double basic, double hra, double da) {
+        double gross = basic + hra + da;
+        return gross;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Basic Salary: ");
+        double basic = sc.nextDouble();
+
+        System.out.print("Enter HRA: ");
+        double hra = sc.nextDouble();
+
+        System.out.print("Enter DA: ");
+        double da = sc.nextDouble();
+
+        double gross = calculateSalary(basic, hra, da);
+
+        System.out.println("Gross Salary = Rs." + gross);
+
+        sc.close();
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testGrossSalary1() {
+        assertEquals(30000.0, Main.calculateSalary(20000, 5000, 5000), 0.01);
+    }
+
+    @Test
+    public void testGrossSalary2() {
+        assertEquals(45000.0, Main.calculateSalary(30000, 10000, 5000), 0.01);
+    }
+
+    @Test
+    public void testGrossSalary3() {
+        assertEquals(15000.0, Main.calculateSalary(10000, 3000, 2000), 0.01);
+    }
+
+    @Test
+    public void testZeroAllowances() {
+        assertEquals(20000.0, Main.calculateSalary(20000, 0, 0), 0.01);
+    }
+}
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static String checkNumber(int num) {
+        if (num > 0) {
+            return "Positive";
+        } else if (num < 0) {
+            return "Negative";
+        } else {
+            return "Zero";
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt();
+
+        String result = checkNumber(num);
+
+        System.out.println("The number is " + result);
+
+        sc.close();
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testPositive() {
+        assertEquals("Positive", Main.checkNumber(10));
+    }
+
+    @Test
+    public void testNegative() {
+        assertEquals("Negative", Main.checkNumber(-5));
+    }
+
+    @Test
+    public void testZero() {
+        assertEquals("Zero", Main.checkNumber(0));
+    }
+
+    @Test
+    public void testLargePositive() {
+        assertEquals("Positive", Main.checkNumber(1000));
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static boolean isPalindrome(int num) {
+        int original = num;
+        int reverse = 0;
+
+        while (num > 0) {
+            int digit = num % 10;
+            reverse = reverse * 10 + digit;
+            num = num / 10;
+        }
+
+        return original == reverse;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt();
+
+        if (isPalindrome(num)) {
+            System.out.println(num + " is a Palindrome");
+        } else {
+            System.out.println(num + " is not a Palindrome");
+        }
+
+        sc.close();
+    }
+}
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+public class MainTest {
+
+    @Test
+    public void testPalindrome() {
+        assertTrue(Main.isPalindrome(121));
+    }
+
+    @Test
+    public void testNonPalindrome() {
+        assertFalse(Main.isPalindrome(123));
+    }
+
+    @Test
+    public void testSingleDigit() {
+        assertTrue(Main.isPalindrome(5));
+    }
+
+    @Test
+    public void testZero() {
+        assertTrue(Main.isPalindrome(0));
+    }
+
+    @Test
+    public void testAnotherPalindrome() {
+        assertTrue(Main.isPalindrome(1221));
+    }
+}
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+
+        for (int i = 2; i < num; i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt();
+
+        if (isPrime(num)) {
+            System.out.println(num + " is a Prime Number");
+        } else {
+            System.out.println(num + " is not a Prime Number");
+        }
+
+        sc.close();
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+public class MainTest {
+
+    @Test
+    public void testPrimeNumber() {
+        assertTrue(Main.isPrime(7));
+    }
+
+    @Test
+    public void testNonPrimeNumber() {
+        assertFalse(Main.isPrime(10));
+    }
+
+    @Test
+    public void testOne() {
+        assertFalse(Main.isPrime(1));
+    }
+
+    @Test
+    public void testZero() {
+        assertFalse(Main.isPrime(0));
+    }
+
+    @Test
+    public void testTwo() {
+        assertTrue(Main.isPrime(2));
+    }
+
+    @Test
+    public void testNegativeNumber() {
+        assertFalse(Main.isPrime(-5));
+    }
+}
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static long factorial(int num) {
+        long fact = 1;
+
+        for (int i = 1; i <= num; i++) {
+            fact = fact * i;
+        }
+
+        return fact;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a non-negative integer: ");
+        int num = sc.nextInt();
+
+        if (num < 0) {
+            System.out.println("Factorial is not defined for negative numbers");
+        } else {
+            long result = factorial(num);
+            System.out.println("Factorial = " + result);
+        }
+
+        sc.close();
+    }
+}
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testFactorial5() {
+        assertEquals(120, Main.factorial(5));
+    }
+
+    @Test
+    public void testFactorial4() {
+        assertEquals(24, Main.factorial(4));
+    }
+
+    @Test
+    public void testFactorial3() {
+        assertEquals(6, Main.factorial(3));
+    }
+
+    @Test
+    public void testFactorial1() {
+        assertEquals(1, Main.factorial(1));
+    }
+
+    @Test
+    public void testFactorial0() {
+        assertEquals(1, Main.factorial(0));
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static String fibonacci(int n) {
+        int a = 0, b = 1;
+        String result = "";
+
+        for (int i = 1; i <= n; i++) {
+            result = result + a + " ";
+            int c = a + b;
+            a = b;
+            b = c;
+        }
+
+        return result.trim();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = sc.nextInt();
+
+        if (n < 0) {
+            System.out.println("Enter a non-negative number");
+        } else {
+            System.out.println("Fibonacci Series: " + fibonacci(n));
+        }
+
+        sc.close();
+    }
+}
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testFibonacci5() {
+        assertEquals("0 1 1 2 3", Main.fibonacci(5));
+    }
+
+    @Test
+    public void testFibonacci7() {
+        assertEquals("0 1 1 2 3 5 8", Main.fibonacci(7));
+    }
+
+    @Test
+    public void testFibonacci1() {
+        assertEquals("0", Main.fibonacci(1));
+    }
+
+    @Test
+    public void testFibonacci2() {
+        assertEquals("0 1", Main.fibonacci(2));
+    }
+
+    @Test
+    public void testFibonacci0() {
+        assertEquals("", Main.fibonacci(0));
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static int calculateSum(int[] arr) {
+        int sum = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+        }
+
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int[] arr = new int[5];
+
+        System.out.println("Enter five integers:");
+
+        for (int i = 0; i < 5; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int sum = calculateSum(arr);
+
+        System.out.println("Sum = " + sum);
+
+        sc.close();
+    }
+}
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MainTest {
+
+    @Test
+    public void testPositiveNumbers() {
+        int[] arr = {1, 2, 3, 4, 5};
+        assertEquals(15, Main.calculateSum(arr));
+    }
+
+    @Test
+    public void testNegativeNumbers() {
+        int[] arr = {-1, -2, -3, -4, -5};
+        assertEquals(-15, Main.calculateSum(arr));
+    }
+
+    @Test
+    public void testMixedNumbers() {
+        int[] arr = {10, -5, 20, -10, 5};
+        assertEquals(20, Main.calculateSum(arr));
+    }
+
+    @Test
+    public void testZero() {
+        int[] arr = {0, 0, 0, 0, 0};
+        assertEquals(0, Main.calculateSum(arr));
+    }
+}
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt();
+
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(num + " x " + i + " = " + (num * i));
+        }
+
+        sc.close();
+    }
+}package org.example;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MainTest {
+
+    @Test
+    void testTableOfFive() {
+        assertEquals("5 x 1 = 5", multiplicationTable(5).split("\n")[0]);
+    }
+
+    @Test
+    void testTableOfTwo() {
+        assertEquals("2 x 10 = 20", multiplicationTable(2).split("\n")[9]);
+    }
+
+    @Test
+    void testTableOfZero() {
+        assertEquals("0 x 1 = 0", multiplicationTable(0).split("\n")[0]);
+    }
+
+    @Test
+    void testNegativeNumber() {
+        assertEquals("-3 x 1 = -3", multiplicationTable(-3).split("\n")[0]);
+    }
+
+    String multiplicationTable(int num) {
+        String result = "";
+
+        for (int i = 1; i <= 10; i++) {
+            result = result + num + " x " + i + " = " + (num * i) + "\n";
+        }
+
+        return result.trim();
+    }
+}
