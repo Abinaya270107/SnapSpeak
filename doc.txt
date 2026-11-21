@@ -981,3 +981,39 @@ class MainTest {
         return result.trim();
     }
 }
+
+
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh 'mkdir -p build'
+                sh 'echo Hello > build/app.txt'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'tar -czf app.tar.gz build'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'mkdir -p /tmp/deploy'
+                sh 'tar -xzf app.tar.gz -C /tmp/deploy'
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                sh 'ls /tmp/deploy/build'
+                sh 'cat /tmp/deploy/build/app.txt'
+            }
+        }
+    }
+}
+
